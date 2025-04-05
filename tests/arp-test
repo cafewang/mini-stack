@@ -1,0 +1,22 @@
+#! /bin/bash
+
+gdb -q --command=$(dirname $0)/arp-cache-inserted.gdb lvl-ip
+exit_code=$?
+if [[ $exit_code -eq 1 ]]; then
+    echo "arp cache inserted when first receive"
+fi
+
+gdb -q --command=$(dirname $0)/arp-cache-updated.gdb lvl-ip
+exit_code=$?
+if [[ $exit_code -eq 1 ]]; then
+    echo "arp cache updated if already present"
+fi
+
+gdb -q --command=$(dirname $0)/arp-reply.gdb lvl-ip
+exit_code=$?
+if [[ $exit_code -eq 1 ]]; then
+    echo "arp reply sent if op code is arp request"
+fi
+
+
+
